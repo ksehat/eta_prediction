@@ -7,8 +7,7 @@ COPY logs /app/logs
 COPY serving /app/serving
 
 COPY requirements.txt /app/requirements.txt
-RUN pip install --upgrade pip \
-    && pip install -r requirements.txt
+RUN pip install -r requirements.txt
 
 EXPOSE 8080
 
