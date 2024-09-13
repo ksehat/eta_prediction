@@ -12,4 +12,5 @@ RUN pip install -r requirements.txt
 
 EXPOSE 5000
 
-CMD ["uvicorn", "serving.api:app", "--host", "0.0.0.0", "--port", "5000"]
+# CMD ["uvicorn", "serving.api:app", "--host", "0.0.0.0", "--port", "5000"]
+CMD ["streamlit", "run", "serving/streamlit_app.py", "--server.address=0.0.0.0", "--server.port=5000"]

@@ -1,19 +1,16 @@
 import streamlit as st
 import os
-from serving.preprocessing import Preprocessing
-from serving.model_service import ModelService
+from preprocessing import Preprocessing
+from model_service import ModelService
 
-# Set up paths
 base_path = os.path.dirname(os.path.dirname(__file__))
 model_path = os.path.join(base_path, 'logs', 'model_weights', 'model1.h5')
 weights_path = os.path.join(base_path, 'logs', 'model_weights', 'model1', 'weights_epoch320.h5')
 rf_model_path = os.path.join(base_path, 'artifact', 'random_forest_model.pkl')
 
-# Initialize preprocessing and model service
 preprocessor = Preprocessing()
 model_service = ModelService(model_path, weights_path, rf_model_path=rf_model_path)
 
-# Streamlit app
 st.title("ETA Prediction")
 
 # Input fields
