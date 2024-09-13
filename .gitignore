@@ -2,5 +2,6 @@ data
 logs
 .idea
 report
+artifact
 venv
 __pycache__
