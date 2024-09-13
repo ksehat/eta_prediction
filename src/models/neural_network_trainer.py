@@ -13,26 +13,26 @@ class NeuralNetworkTrainer(ModelTrainer):
 
     def build_model(self, input_shape):
         model = tf.keras.Sequential([
-            tf.keras.layers.InputLayer(input_shape=input_shape),
+            tf.keras.layers.InputLayer(input_shape=input_shape+1),
             # tf.keras.layers.BatchNormalization(),
-            tf.keras.layers.Dense(64, activation='relu'),
+            tf.keras.layers.Dense(20, activation='relu'),
             # tf.keras.layers.BatchNormalization(),
-            tf.keras.layers.Dense(32, activation='relu'),
+            tf.keras.layers.Dense(40, activation='relu'),
             # tf.keras.layers.Dropout(0.1),
-            # tf.keras.layers.Dense(8, activation='relu'),
-            tf.keras.layers.Dense(1, activation='linear')
+            # tf.keras.layers.Dense(10, activation='relu'),
+            tf.keras.layers.Dense(4, activation='softmax')
         ])
-        optimizer = tf.keras.optimizers.Adam(learning_rate=1e-4)
-        model.compile(optimizer=optimizer, loss=tf.keras.losses.mae)
+        optimizer = tf.keras.optimizers.Adam(learning_rate=1e-3)
+        model.compile(optimizer=optimizer, loss=tf.keras.losses.sparse_categorical_crossentropy,
+                      metrics=tf.keras.metrics.sparse_categorical_accuracy)
         return model
 
     def train(self, X_train, y_train):
         main_dir = 'C://Users\kanan\Desktop\ML-Map\eta_prediction\logs\model_weights/'
-        self.history = self.model.fit(X_train, y_train, epochs=10000, batch_size=512, validation_split=0.2,
-                                 callbacks=[SaveWeights(main_dir + 'model1')])
+        self.history = self.model.fit(X_train, y_train, epochs=10000, batch_size=500, validation_split=0.2,
+                                      callbacks=[SaveWeights(main_dir + 'model1')])
         self.model.save(main_dir + 'model1.h5')
         self.plot_training_history()
-
 
     def evaluate(self, X_test, y_test):
         y_pred_prob = self.model.predict(X_test)
@@ -52,11 +52,10 @@ class NeuralNetworkTrainer(ModelTrainer):
         plt.xlabel('Predicted Label')
         plt.show()
 
-
     def plot_training_history(self):
         # Extract the accuracy and loss from the history object
-        acc = self.history.history['accuracy']
-        val_acc = self.history.history['val_accuracy']
+        acc = self.history.history['sparse_categorical_accuracy']
+        val_acc = self.history.history['val_sparse_categorical_accuracy']
         loss = self.history.history['loss']
         val_loss = self.history.history['val_loss']
 
