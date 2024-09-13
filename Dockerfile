@@ -6,13 +6,10 @@ COPY artifact /app/artifact
 COPY logs /app/logs
 COPY serving /app/serving
 
-# Copy requirements.txt and install dependencies
 COPY requirements.txt /app/requirements.txt
-RUN pip install --no-cache-dir --upgrade pip \
-    && pip install --no-cache-dir -r requirements.txt
+RUN pip install --upgrade pip \
+    && pip install -r requirements.txt
 
-# Expose port 5000
-EXPOSE 5000
+EXPOSE 8080
 
-# Run waitress server from the 'serving' directory
-CMD ["waitress-serve", "--host=0.0.0.0", "--port=5000", "serving.api:app"]
+CMD ["waitress-serve", "--host=127.0.0.1", "--port=8080", "serving.api:app"]

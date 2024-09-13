@@ -1,3 +1,4 @@
+import os
 import copy
 import pickle
 import pandas as pd
@@ -5,9 +6,10 @@ import pandas as pd
 
 class Preprocessing:
     def __init__(self):
-        with open('C://Users\kanan\Desktop\ML-Map\eta_prediction//artifact\standard_scaler.pkl', 'rb') as file:
+        base_path = os.path.dirname(os.path.dirname(__file__))
+        with open(os.path.join(base_path, 'artifact', 'standard_scaler.pkl'), 'rb') as file:
             self.standard_scaler = pickle.load(file)
-        with open('C://Users\kanan\Desktop\ML-Map\eta_prediction//artifact\kmeans_model.pkl', 'rb') as file:
+        with open(os.path.join(base_path, 'artifact', 'kmeans_model.pkl'), 'rb') as file:
             self.kmeans = pickle.load(file)
         self.df = None
 
